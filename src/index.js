@@ -2,6 +2,17 @@ const { Client, Collection } = require("discord.js");
 const { Colors, BetterConsoleLogger } = require("discord.js-v14-helper");
 const fs = require("fs");
 const config = require("./config/main");
+const https = require('https');
+const express = require('express');
+
+const app = express();
+
+app.get("/", (request, response) => {
+    console.log(Date.now() + " Ping Received");
+    response.sendStatus(200);
+});
+
+app.listen(process.env.PORT);
 
 const client = new Client(config.client.constructor);
 
