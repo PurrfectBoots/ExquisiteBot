@@ -13,7 +13,7 @@ app.get("/", (request, response) => {
 app.listen(process.env.PORT);
 setInterval(() => {
   https.get(`https://discaventures-keepalive-40yd.onrender.com`);
-}, 600000);
+}, 60000);
 
 process.on("SIGTERM", () => {
   console.log("Received SIGTERM. Exiting...");
