@@ -5,7 +5,7 @@ module.exports = {
   customId: "endExquisite",
   run: async (client, interaction) => {
     const exquisiteId = interaction.message.embeds[0].footer.text.split(" ")[1];
-    const exquisiteGame = ExquisiteGame.findOne({ gameID: exquisiteId });
+    const exquisiteGame = await ExquisiteGame.findOne({ gameID: exquisiteId });
 
     if (exquisiteGame.authorID != interaction.user.id) {
       return interaction.reply({

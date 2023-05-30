@@ -15,7 +15,7 @@ module.exports = {
       });
     }
 
-    if (exquisiteGame.oneTimePlay && exquisiteGame.sentences.some((sentence) => sentence.authorID == interaction.sentence.id)) {
+    if (exquisiteGame.oneTimePlay && exquisiteGame.sentences.some((sentence) => sentence.authorID == interaction.user.id)) {
       return interaction.reply({
         content: `\`🚫\` Tu as déjà participé !`,
         ephemeral: true,
