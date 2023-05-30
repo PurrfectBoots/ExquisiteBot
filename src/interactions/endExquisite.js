@@ -34,7 +34,7 @@ module.exports = {
       .setTitle("Cadavre exquis terminé !")
       .setFooter({ text: `ID: ${exquisiteId}` })
       .setColor("#34eb58")
-      .addFields({ name: "Participants", value: `${exquisiteGame.contributors.length}`, inline: true }, { name: "Phrases ajoutées", value: `${exquisiteGame.sentences.length}`, inline: true });
+      .addFields({ name: "Participants", value: `${contributors.length}`, inline: true }, { name: "Phrases ajoutées", value: `${exquisiteGame.sentences.length}`, inline: true });
 
     const showResults = new ButtonBuilder({
       style: ButtonStyle.Primary,
