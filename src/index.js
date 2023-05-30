@@ -34,5 +34,6 @@ fs.readdirSync("./src/handlers").forEach((handler) => {
 });
 
 require("./error/main")();
+require("./util/functions")(client);
 
 client.login(config.client.token);
