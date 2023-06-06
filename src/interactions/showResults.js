@@ -44,7 +44,7 @@ module.exports = {
     });
 
     let topContributors = [...contributors];
-    topContributors.sort((a, b) => a.amount - b.amount);
+    topContributors.sort((a, b) => b.amount - a.amount);
 
     const contributorsEmbed = new EmbedBuilder().setTitle("Joueurs").setDescription(topContributors.map((contributor) => "<@" + contributor.id + ">").join(", "));
 
