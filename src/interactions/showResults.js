@@ -12,7 +12,7 @@ module.exports = {
     let currentBlock = [];
     currentLength = 0;
     for (const sentence of exquisiteGame.sentences) {
-      if (currentLength + sentence.value.length > 5000) {
+      if (currentLength + sentence.value.length > 4000) {
         story.push(currentBlock);
         currentLength = 0;
         currentBlock = [];
