@@ -1,4 +1,9 @@
-const { ButtonBuilder, ButtonStyle, ActionRowBuilder, EmbedBuilder } = require("discord.js");
+const {
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+  EmbedBuilder,
+} = require("discord.js");
 const ExquisiteGame = require("../schemas/exquisiteGame");
 
 module.exports = {
@@ -9,15 +14,22 @@ module.exports = {
 
     if (exquisiteGame.authorID != interaction.user.id) {
       return interaction.reply({
-        content: "`🚫` Seul le propriétaire du cadavre exquis peut y mettre fin",
+        content:
+          "`🚫` Seul le propriétaire du cadavre exquis peut y mettre fin",
         ephemeral: true,
       });
     }
 
+    await exquisiteGame.updateOne({ endDate: Date.now() })
+
     let contributors = [];
     exquisiteGame.sentences.map((sentence) => {
-      if (contributors.some((contributor) => contributor.id == sentence.authorID)) {
-        let contributor = contributors.find((contributor) => contributor.id == sentence.authorID);
+      if (
+        contributors.some((contributor) => contributor.id == sentence.authorID)
+      ) {
+        let contributor = contributors.find(
+          (contributor) => contributor.id == sentence.authorID
+        );
         contributor.amount++;
       } else {
         contributors.push({ id: sentence.authorID, amount: 1 });
@@ -34,15 +46,34 @@ module.exports = {
       .setTitle("Cadavre exquis terminé !")
       .setFooter({ text: `ID: ${exquisiteId}` })
       .setColor("#34eb58")
-      .addFields({ name: "Participants", value: `${contributors.length}`, inline: true }, { name: "Phrases ajoutées", value: `${exquisiteGame.sentences.length}`, inline: true });
+      .addFields(
+        { name: "Participants", value: `${contributors.length}`, inline: true },
+        {
+          name: "Phrases ajoutées",
+          value: `${exquisiteGame.sentences.length}`,
+          inline: true,
+        }
+      )
+      .setDescription(
+        `\`❗\` Attention, la partie n'a pas été sauvegardée et le contenu ne sera plus disponnible <t:${(
+          Date.now() / 1000 +
+          24 * 3600
+        ).toFixed(0)}:R>`
+      );
 
     const showResults = new ButtonBuilder({
       style: ButtonStyle.Primary,
       customId: "showResults",
       label: "Consulter les résultats",
     });
+    const saveGame = new ButtonBuilder({
+      style: ButtonStyle.Success,
+      customId: "saveGame",
+      label: "Sauvegarder la partie",
+      emoji: "💾",
+    });
 
-    const row = new ActionRowBuilder().addComponents(showResults);
+    const row = new ActionRowBuilder().addComponents(showResults, saveGame);
 
     interaction.message.edit({
       embeds: [endedEmbed],

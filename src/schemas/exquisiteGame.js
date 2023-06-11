@@ -9,6 +9,7 @@ const exquisiteGame = new mongoose.Schema({
   endDate: Number,
   oneTimePlay: Boolean,
   active: Boolean,
+  saved: Boolean,
 });
 
 module.exports = mongoose.model("ExquisiteGame", exquisiteGame);
