@@ -25,23 +25,30 @@ module.exports = {
       });
     }
 
-    let story = exquisiteGame.sentences.reduce((acc, sentence) => {
-      const lastBlock = acc[acc.length - 1];
-      const length = lastBlock ? lastBlock.length : 0;
-      if (length + sentence.value.length > 4000) {
-        acc.push([sentence.value]);
+    let story = [];
+    let currentBlock = [];
+    currentLength = 0;
+    for (const sentence of exquisiteGame.sentences) {
+      if (currentLength + sentence.value.length > 4000) {
+        story.push(currentBlock);
+        currentLength = 0;
+        currentBlock = [];
       } else {
-        lastBlock.push(sentence.value);
+        currentBlock.push(sentence.value);
+        currentLength += sentence.value.length;
       }
-      return acc;
-    }, [[]]);
+    }
+    if (currentBlock != []) {
+      story.push(currentBlock);
+    }
 
-    let storyEmbeds = await Promise.all(story.map(async (block) => {
-      const resumeEmbed = new EmbedBuilder()
-        .setDescription(block.join("\n"))
-        .setColor("#39425c");
-      return resumeEmbed;
-    }));
+    let storyEmbeds = [];
+
+    for (const block of story) {
+      resumeEmbed = new EmbedBuilder().setDescription(block.join("\n")).setColor("#39425c");
+
+      storyEmbeds.push(resumeEmbed);
+    }
 
     let contributors = [];
     exquisiteGame.sentences.map((sentence) => {
@@ -88,25 +95,10 @@ module.exports = {
       )
     );
 
-    const contributorsEmbed = new EmbedBuilder()
-      .setTitle("Joueurs")
-      .setDescription(
-        topContributors
-          .map((contributor) => "<@" + contributor.id + ">")
-          .join(", ")
-      );
-
-    const factsEmbed = new EmbedBuilder().setDescription(
-      `Meilleur contributeur: <@${topContributors[0].id}> a ajouté ${topContributors[0].amount} phrase` +
-        `${topContributors[0].amount > 1 ? `s` : ``}`
-    );
-
     return await pagination({
       embeds: [
         ...storyEmbeds,
-        contributorsEmbed,
         ...leaderboardContributorsEmbeds,
-        factsEmbed,
       ],
       author: interaction.member.user,
       interaction: interaction,
