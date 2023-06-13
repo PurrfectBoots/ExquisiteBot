@@ -108,6 +108,7 @@ module.exports = {
           oneTimePlay: interaction.options.get("participation-unique").value,
           endDate: length == 0 ? Infinity : Date.now() + length,
           active: true,
+          saved: false,
         });
         await exquisiteGame.save();
       });
