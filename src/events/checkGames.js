@@ -90,7 +90,7 @@ client.on("checkGames", async () => {
     }
     const unsavedGamesExpired = await ExquisiteGame.where("saved")
       .equals(false)
-      .where("enDate")
+      .where("endDate")
       .lt(Date.now() - (3600 * 24 * 1000));
     if (unsavedGamesExpired.length > 0) {
       unsavedGamesExpired.map(async (game) => {
