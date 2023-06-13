@@ -101,7 +101,7 @@ client.on("checkGames", async () => {
         const deletedGameEmbed = new EmbedBuilder(gameEmbed.toJSON())
           .setColor("Grey")
           .setDescription(
-            "`⚠️` Cette partie est terminée et n'a pas été sauvegardée, l'histoire n'est donc plus disponible"
+            "`🚫` Cette partie est terminée et n'a pas été sauvegardée, l'histoire n'est donc plus disponible"
           );
 
         await gameMessage.edit({
