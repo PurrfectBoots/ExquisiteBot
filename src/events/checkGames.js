@@ -91,7 +91,7 @@ client.on("checkGames", async () => {
     const unsavedGamesExpired = await ExquisiteGame.where("saved")
       .equals(false)
       .where("enDate")
-      .lt(Date.now() - 3600 * 24 * 1000);
+      .lt(Date.now() - (3600 * 24 * 1000));
     if (unsavedGamesExpired.length > 0) {
       unsavedGamesExpired.map(async (game) => {
         const gameChannel = await client.channels.fetch(game.channelID);
@@ -108,11 +108,10 @@ client.on("checkGames", async () => {
           embeds: [deletedGameEmbed],
           components: [],
         });
-
-        await game.deleteMany({
-          saved: false,
-          endDate: { $lt: Date.now() - 3600 * 24 * 1000 },
-        });
+      });
+      await ExquisiteGame.deleteMany({
+        saved: false,
+        endDate: { $lt: Date.now() - (3600 * 24 * 1000) },
       });
     }
   } catch (error) {
